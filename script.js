@@ -3,9 +3,10 @@ const step = document.querySelector('.step-input')
 const [ from, to ] = document.querySelectorAll('.interval-input')
 const variable = document.querySelector('.variable-input')
 const btn = document.querySelector('.decide')
-const table = document.querySelector('table');
+const table = document.querySelector('table')
+const methods = document.querySelector('.methods')
 
-const createTableRowHeader = () => {
+const createTableRowHeader = (dy) => {
   const headerRow = document.createElement('tr')
 
   const iHeader = document.createElement('th')
@@ -19,11 +20,17 @@ const createTableRowHeader = () => {
   const yHeader = document.createElement('th')
   yHeader.textContent = 'y(i)'
   headerRow.appendChild(yHeader)
-
+  
+  if (dy) {
+    const deltaYHeader = document.createElement('th')
+    deltaYHeader.textContent = 'dy(i)'
+    headerRow.appendChild(deltaYHeader)
+  }
+  
   table.appendChild(headerRow)
 }
 
-const createTableRow = (i, x, y) => {
+const createTableRow = (i, x, y, dy) => {
   const row = document.createElement('tr')
 
   const iCell = document.createElement('td')
@@ -37,6 +44,12 @@ const createTableRow = (i, x, y) => {
   const yCell = document.createElement('td')
   yCell.textContent = y
   row.appendChild(yCell)
+  
+  if (dy) {
+    const deltaYCell = document.createElement('td')
+    deltaYCell.textContent = dy
+    row.appendChild(deltaYCell)
+  }
 
   table.appendChild(row)
 }
@@ -76,10 +89,80 @@ const rungeKutte = (f, x0, y0, h, end) => {
 
     y += h / 6 * (r1 + 2 * r2 + 2* r3 + r4)
     x += h
+
     x = parseFloat(x.toFixed(1))
     y = parseFloat(y.toFixed(3))
 
-    console.log(r1 + '\n', r2 + '\n', r3 + '\n', r4 + '\n');
+    // console.log(r1 + '\n', r2 + '\n', r3 + '\n', r4 + '\n');
+    createTableRow(i, x, y)
+  }
+
+  return { y }
+}
+
+const euler = (f, x0, y0, h, end) => {
+  let x = x0
+  let y = y0
+
+  let dy = f(x, y) * h
+  dy = parseFloat(dy.toFixed(3))
+  
+  createTableRowHeader(dy)
+  createTableRow(0, x, y, dy)
+
+  y += dy
+  x += h
+
+  for (let i = 1; i <= getId(x0, end, h).i; i++) {
+    dy = f(x, y) * h
+    dy = parseFloat(dy.toFixed(3))
+    
+    createTableRow(i, x, y, dy)
+
+    y += dy
+    x += h
+
+    x = parseFloat(x.toFixed(1))
+    y = parseFloat(y.toFixed(3))
+  }
+
+  return { y }
+}
+
+const modificEuler = (f, x0, y0, h, end) => {
+  let x = x0
+  let y = y0
+  let yArr = [y0]
+
+  createTableRowHeader()
+  createTableRow(0, x, y)
+
+  let y0_5 = y0 + h / 2 * f(x, y0)
+  let x0_5 = x + h / 2
+  y0_5 = parseFloat(y0_5.toFixed(3))
+  createTableRow(0.5, x0_5, y0_5)
+
+  let y1 = y0 + h * f(x0_5, y0_5)
+  x += h
+  y1 = parseFloat(y1.toFixed(3))
+  createTableRow(1, x, y1)
+  
+  let y2 = y0 + 2 * h * f(x, y1)
+  x += h
+  y2 = parseFloat(y2.toFixed(3))
+  createTableRow(2, x, y2)
+
+  yArr.push(y1)
+  yArr.push(y2)
+
+  for (let i = 3; i < getId(x0, end, h).i; i++) {
+    let y = yArr[i-2] + 2 * h * f(x, yArr[i-1])
+    x += h
+    yArr.push(y)
+
+    x = parseFloat(x.toFixed(1))
+    y = parseFloat(y.toFixed(3))
+
     createTableRow(i, x, y)
   }
 
@@ -87,6 +170,18 @@ const rungeKutte = (f, x0, y0, h, end) => {
 }
 
 btn.addEventListener('click', () => {
-  const result = rungeKutte(f, Number(from.value), Number(variable.value), Number(step.value), Number(to.value))
-  console.log(result.y);
+  if (methods.value === 'euler') {
+    euler(f, Number(from.value), Number(variable.value), Number(step.value), Number(to.value))
+    return
+  }
+
+  if (methods.value === 'euler-modific') {
+    modificEuler(f, Number(from.value), Number(variable.value), Number(step.value), Number(to.value))
+    return
+  }
+  
+  if (methods.value === 'rugne-kutte') {
+    rungeKutte(f, Number(from.value), Number(variable.value), Number(step.value), Number(to.value))
+    return
+  }
 })
