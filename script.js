@@ -58,17 +58,6 @@ const f = (x, y) => {
   return eval(equation.value)
 }
 
-// const getId = (a, b, h) => {
-//   let i = 0
-
-//   while (a < b) {
-//     a += h
-//     i++
-//   }
-
-//   return { i }
-// }
-
 const getId = (a, b, h) => {
   const i = Math.floor((b - a) / h) + 1;
 
