@@ -58,13 +58,19 @@ const f = (x, y) => {
   return eval(equation.value)
 }
 
-const getId = (a, b, h) => {
-  let i = 0
+// const getId = (a, b, h) => {
+//   let i = 0
 
-  while (a < b) {
-    a += h
-    i++
-  }
+//   while (a < b) {
+//     a += h
+//     i++
+//   }
+
+//   return { i }
+// }
+
+const getId = (a, b, h) => {
+  const i = Math.floor((b - a) / h) + 1;
 
   return { i }
 }
@@ -76,7 +82,7 @@ const rungeKutte = (f, x0, y0, h, end) => {
   createTableRowHeader()
   createTableRow(0, x, y)
 
-  for (let i = 1; i <= getId(x0, end, h).i; i++) {
+  for (let i = 1; i < getId(x0, end, h).i; i++) {
     let r1 = f(x, y)
     let r2 = f(x + h / 2, y + r1 / 2)
     let r3 = f(x + h / 2, y + r2 / 2)
@@ -113,7 +119,7 @@ const euler = (f, x0, y0, h, end) => {
   y += dy
   x += h
 
-  for (let i = 1; i <= getId(x0, end, h).i; i++) {
+  for (let i = 1; i < getId(x0, end, h).i; i++) {
     dy = f(x, y) * h
     dy = parseFloat(dy.toFixed(3))
     
@@ -171,16 +177,31 @@ const modificEuler = (f, x0, y0, h, end) => {
 
 btn.addEventListener('click', () => {
   if (methods.value === 'euler') {
+    if (table.hasChildNodes()) {
+      table.innerHTML = ''
+      euler(f, Number(from.value), Number(variable.value), Number(step.value), Number(to.value))
+      return
+    }
     euler(f, Number(from.value), Number(variable.value), Number(step.value), Number(to.value))
     return
   }
 
   if (methods.value === 'euler-modific') {
+    if (table.hasChildNodes()) {
+      table.innerHTML = ''
+      modificEuler(f, Number(from.value), Number(variable.value), Number(step.value), Number(to.value))
+      return
+    }
     modificEuler(f, Number(from.value), Number(variable.value), Number(step.value), Number(to.value))
     return
   }
   
   if (methods.value === 'rugne-kutte') {
+    if (table.hasChildNodes()) {
+      table.innerHTML = ''
+      rungeKutte(f, Number(from.value), Number(variable.value), Number(step.value), Number(to.value))
+      return
+    }
     rungeKutte(f, Number(from.value), Number(variable.value), Number(step.value), Number(to.value))
     return
   }
