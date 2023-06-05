@@ -74,7 +74,7 @@ const equationTransfrom = (equation) => {
   equation = equation.replace(/arccosec|arccsc/gi, '1 / Math.asin')
 
   equation = equation.replace(/([A-z])(\^)(\d+)/gi, 'Math.pow($1, $3)')
-  
+  equation = equation.replace(/(\d+)([A-z])/gi, 'Math.pow($2, $1)')
 
   return equation
 }
