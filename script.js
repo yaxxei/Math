@@ -55,6 +55,8 @@ const createTableRow = (i, x, y, dy) => {
   table.appendChild(row)
 }
 
+
+
 const equationTransfrom = (equation) => {
   equation = equation.replace(/Math./gi, '')
   equation = equation.replace(/pow/gi, 'Math.pow')
@@ -74,7 +76,9 @@ const equationTransfrom = (equation) => {
   equation = equation.replace(/arccosec|arccsc/gi, '1 / Math.asin')
 
   equation = equation.replace(/([A-z])(\^)(\d+)/gi, 'Math.pow($1, $3)')
-  equation = equation.replace(/(\d+)([A-z])/gi, 'Math.pow($2, $1)')
+  equation = equation.replace(/(\d+)([A-z])/gi, '$1 * $2')
+
+  // equation = equation.replace(/,/g, '.')
 
   return equation
 }
