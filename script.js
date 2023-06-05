@@ -57,6 +57,7 @@ const createTableRow = (i, x, y, dy) => {
 
 const equationTransfrom = (equation) => {
   equation = equation.replace(/Math./gi, '')
+  equation = equation.replace(/pow/gi, 'Math.pow')
   
   equation = equation.replace(/sin/gi, 'Math.sin')
   equation = equation.replace(/cos/gi, 'Math.cos')
@@ -73,7 +74,7 @@ const equationTransfrom = (equation) => {
   equation = equation.replace(/arccosec|arccsc/gi, '1 / Math.asin')
 
   equation = equation.replace(/([A-z])(\^)(\d+)/gi, 'Math.pow($1, $3)')
-  equation = equation.replace(/pow/gi, 'Math.pow')
+  
 
   return equation
 }
