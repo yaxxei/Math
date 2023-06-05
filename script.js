@@ -55,7 +55,11 @@ const createTableRow = (i, x, y, dy) => {
   table.appendChild(row)
 }
 
-
+equation.value = equation.value.replace(/,/g, '.')
+step.value = step.value.replace(/,/g, '.')
+from.value = from.value.replace(/,/g, '.')
+to.value = to.value.replace(/,/g, '.')
+variable.value = variable.value.replace(/,/g, '.')
 
 const equationTransfrom = (equation) => {
   equation = equation.replace(/Math./gi, '')
@@ -77,8 +81,6 @@ const equationTransfrom = (equation) => {
 
   equation = equation.replace(/([A-z])(\^)(\d+)/gi, 'Math.pow($1, $3)')
   equation = equation.replace(/(\d+)([A-z])/gi, '$1 * $2')
-
-  // equation = equation.replace(/,/g, '.')
 
   return equation
 }
