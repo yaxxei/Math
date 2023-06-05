@@ -1,10 +1,11 @@
 const equation = document.querySelector('.equation-input')
 const step = document.querySelector('.step-input')
-const [ from, to ] = document.querySelectorAll('.interval-input')
+const [from, to] = document.querySelectorAll('.interval-input')
 const variable = document.querySelector('.variable-input')
 const btn = document.querySelector('.decide')
 const table = document.querySelector('table')
 const methods = document.querySelector('.methods')
+const rs = document.querySelector('#rs')
 
 const createTableRowHeader = (dy) => {
   const headerRow = document.createElement('tr')
@@ -20,13 +21,13 @@ const createTableRowHeader = (dy) => {
   const yHeader = document.createElement('th')
   yHeader.textContent = 'y(i)'
   headerRow.appendChild(yHeader)
-  
+
   if (dy) {
     const deltaYHeader = document.createElement('th')
     deltaYHeader.textContent = 'dy(i)'
     headerRow.appendChild(deltaYHeader)
   }
-  
+
   table.appendChild(headerRow)
 }
 
@@ -44,7 +45,7 @@ const createTableRow = (i, x, y, dy) => {
   const yCell = document.createElement('td')
   yCell.textContent = y
   row.appendChild(yCell)
-  
+
   if (dy) {
     const deltaYCell = document.createElement('td')
     deltaYCell.textContent = dy
@@ -54,8 +55,30 @@ const createTableRow = (i, x, y, dy) => {
   table.appendChild(row)
 }
 
+const equationTransfrom = (equation) => {
+  equation = equation.replace(/Math./gi, '')
+  
+  equation = equation.replace(/sin/gi, 'Math.sin')
+  equation = equation.replace(/cos/gi, 'Math.cos')
+  equation = equation.replace(/tan|tg/gi, 'Math.tan')
+  equation = equation.replace(/cot|ctg/gi, '1 / Math.tan')
+  equation = equation.replace(/sec/gi, '1 / Math.cos')
+  equation = equation.replace(/cosec|csc/gi, '1 / Math.sin')
+
+  equation = equation.replace(/arcsin/gi, 'Math.asin')
+  equation = equation.replace(/arccos/gi, 'Math.acos')
+  equation = equation.replace(/arctan|arctg/gi, 'Math.atan')
+  equation = equation.replace(/arccot|arcctg/gi, '1 / Math.atan')
+  equation = equation.replace(/arcsec/gi, '1 / Math.acos')
+  equation = equation.replace(/arccosec|arccsc/gi, '1 / Math.asin')
+
+  equation = equation.replace(/([A-z])(\^)(\d+)/gi, 'Math.pow($1, $3)')
+
+  return equation
+}
+
 const f = (x, y) => {
-  return eval(equation.value)
+  return eval(equationTransfrom(equation.value))
 }
 
 const getId = (a, b, h) => {
@@ -82,14 +105,24 @@ const rungeKutte = (f, x0, y0, h, end) => {
     r3 = parseFloat(r3.toFixed(3))
     r4 = parseFloat(r4.toFixed(3))
 
-    y += h / 6 * (r1 + 2 * r2 + 2* r3 + r4)
+    y += h / 6 * (r1 + 2 * r2 + 2 * r3 + r4)
     x += h
 
     x = parseFloat(x.toFixed(1))
     y = parseFloat(y.toFixed(3))
 
-    // console.log(r1 + '\n', r2 + '\n', r3 + '\n', r4 + '\n');
     createTableRow(i, x, y)
+
+    const r = document.createElement('p')
+    r.innerHTML = `
+    ${i} итерация: <br>
+    r1 = ${r1} <br>
+    r2 = ${r2} <br>
+    r3 = ${r3} <br>
+    r4 = ${r4} <br>
+    <br>
+    `
+    rs.appendChild(r)
   }
 
   return { y }
@@ -101,7 +134,7 @@ const euler = (f, x0, y0, h, end) => {
 
   let dy = f(x, y) * h
   dy = parseFloat(dy.toFixed(3))
-  
+
   createTableRowHeader(dy)
   createTableRow(0, x, y, dy)
 
@@ -111,7 +144,7 @@ const euler = (f, x0, y0, h, end) => {
   for (let i = 1; i < getId(x0, end, h).i; i++) {
     dy = f(x, y) * h
     dy = parseFloat(dy.toFixed(3))
-    
+
     createTableRow(i, x, y, dy)
 
     y += dy
@@ -139,11 +172,13 @@ const modificEuler = (f, x0, y0, h, end) => {
 
   let y1 = y0 + h * f(x0_5, y0_5)
   x += h
+  x = parseFloat(x.toFixed(1))
   y1 = parseFloat(y1.toFixed(3))
   createTableRow(1, x, y1)
-  
+
   let y2 = y0 + 2 * h * f(x, y1)
   x += h
+  x = parseFloat(x.toFixed(1))
   y2 = parseFloat(y2.toFixed(3))
   createTableRow(2, x, y2)
 
@@ -151,7 +186,7 @@ const modificEuler = (f, x0, y0, h, end) => {
   yArr.push(y2)
 
   for (let i = 3; i < getId(x0, end, h).i; i++) {
-    let y = yArr[i-2] + 2 * h * f(x, yArr[i-1])
+    let y = yArr[i - 2] + 2 * h * f(x, yArr[i - 1])
     x += h
     yArr.push(y)
 
@@ -168,8 +203,9 @@ btn.addEventListener('click', () => {
   if (methods.value === 'euler') {
     if (table.hasChildNodes()) {
       table.innerHTML = ''
-      euler(f, Number(from.value), Number(variable.value), Number(step.value), Number(to.value))
-      return
+    }
+    if (rs.hasChildNodes()) {
+      rs.innerHTML = ''
     }
     euler(f, Number(from.value), Number(variable.value), Number(step.value), Number(to.value))
     return
@@ -178,18 +214,20 @@ btn.addEventListener('click', () => {
   if (methods.value === 'euler-modific') {
     if (table.hasChildNodes()) {
       table.innerHTML = ''
-      modificEuler(f, Number(from.value), Number(variable.value), Number(step.value), Number(to.value))
-      return
+    }
+    if (rs.hasChildNodes()) {
+      rs.innerHTML = ''
     }
     modificEuler(f, Number(from.value), Number(variable.value), Number(step.value), Number(to.value))
     return
   }
-  
+
   if (methods.value === 'rugne-kutte') {
     if (table.hasChildNodes()) {
       table.innerHTML = ''
-      rungeKutte(f, Number(from.value), Number(variable.value), Number(step.value), Number(to.value))
-      return
+    }
+    if (rs.hasChildNodes()) {
+      rs.innerHTML = ''
     }
     rungeKutte(f, Number(from.value), Number(variable.value), Number(step.value), Number(to.value))
     return
