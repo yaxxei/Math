@@ -1,4 +1,5 @@
 const equation = document.querySelector('.equation-input')
+const equationCheck = document.querySelector('.equation-check')
 const step = document.querySelector('.step-input')
 const [from, to] = document.querySelectorAll('.interval-input')
 const variable = document.querySelector('.variable-input')
@@ -7,7 +8,15 @@ const table = document.querySelector('table')
 const methods = document.querySelector('.methods')
 const rs = document.querySelector('#rs')
 
+const equatCheck = () => {
+  equation.addEventListener('keydown', (e) => {
+    console.log(e.target);
+  })
+}
+equatCheck()
+
 const createTableRowHeader = (dy) => {
+  table.id = 'table'
   const headerRow = document.createElement('tr')
 
   const iHeader = document.createElement('th')
@@ -124,10 +133,10 @@ const rungeKutte = (f, x0, y0, h, end) => {
     const r = document.createElement('p')
     r.innerHTML = `
     ${i} итерация: <br>
-    r1 = ${r1} <br>
-    r2 = ${r2} <br>
-    r3 = ${r3} <br>
-    r4 = ${r4} <br>
+    r(1) = ${r1} <br>
+    r(2) = ${r2} <br>
+    r(3) = ${r3} <br>
+    r(4) = ${r4} <br>
     <br>
     `
     rs.appendChild(r)

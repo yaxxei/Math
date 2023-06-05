@@ -6,6 +6,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600&display=swap" rel="stylesheet">
   <title>Math</title>
 </head>
 
@@ -13,40 +16,49 @@
   <div class="page">
     <div class="container">
       <div class="page__inner">
-        <select class="methods" name="decides">
-          <option class="method" value="euler">Метод Эйлера</option>
-          <option class="method" value="euler-modific">Модифицированный метод Эйлера</option>
-          <option class="method" value="rugne-kutte">Метод Ругне-Кутта</option>
-        </select>
-
-        <div class="equation">
-          <p>Уравнение</p>
-          y' = <input class="equation-input" type="text">
+        <div id="left">
+          <select class="methods" name="decides" multiple>
+            <option class="method" value="euler">Метод Эйлера</option>
+            <option class="method" value="euler-modific">Модифицированный метод Эйлера</option>
+            <option class="method" value="rugne-kutte">Метод Ругне-Кутта</option>
+          </select>
         </div>
 
-        <div class="step">
-          <p>Шаг</p>
-          h = <input class="step-input" type="number">
-        </div>
-        
-        <div class="interval">
-          <p>Интервал</p>
-          <div class="text">
-            <input class="interval-input from" type="number">
-            <input class="interval-input to" type="number">
+        <div id="center">
+          <div class="equation">
+            <p>Уравнение, y'</p>
+            <input class="equation-input" type="text" placeholder="Пример: cos(y) + x^2">
           </div>
+
+          <div class="step">
+            <p>Шаг, h</p>
+            <input class="step-input" type="number" placeholder="Пример: 0.1">
+          </div>
+
+          <div class="interval">
+            <p>Интервал, [a, b]</p>
+            <div class="text">
+              <input class="interval-input from" type="number" placeholder="Пример: 0"> 
+              :
+              <input class="interval-input to" type="number" placeholder="Пример: 1">
+            </div>
+          </div>
+
+          <div class="variable">
+            <p>Значение переменной, y(x(0))</p>
+            <input class="variable-input" type="number" placeholder="Пример: 3">
+          </div>
+
+          <button class="decide">Решить</button>
+
+          <table></table>
+
+          <div id="rs"></div>
         </div>
-        
-        <div class="variable">
-          <p>Значение переменной</p>
-          y(x(0)) = <input class="variable-input" type="number">
+
+        <div id="right">
+          <!-- <p>Тут могла бы быть ваша реклама</p> -->
         </div>
-
-        <button class="decide">Решить</button>
-
-        <table></table>
-
-        <div id="rs"></div>
       </div>
     </div>
   </div>
