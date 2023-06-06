@@ -112,10 +112,10 @@ const rungeKutte = (f, x0, y0, h, end) => {
   createTableRow(0, x, y)
 
   for (let i = 1; i < getId(x0, end, h).i; i++) {
-    let r1 = f(x, y)
-    let r2 = f(x + h / 2, y + r1 / 2)
-    let r3 = f(x + h / 2, y + r2 / 2)
-    let r4 = f(x + h, y + r3)
+    let r1 = h * f(x, y)
+    let r2 = h * f(x + h / 2, y + r1 / 2)
+    let r3 = h * f(x + h / 2, y + r2 / 2)
+    let r4 = h * f(x + h, y + r3)
 
     r1 = parseFloat(r1.toFixed(3))
     r2 = parseFloat(r2.toFixed(3))
