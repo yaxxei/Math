@@ -122,7 +122,7 @@ const rungeKutte = (f, x0, y0, h, end) => {
     r3 = parseFloat(r3.toFixed(3))
     r4 = parseFloat(r4.toFixed(3))
 
-    y += h / 6 * (r1 + 2 * r2 + 2 * r3 + r4)
+    y += (r1 + 2 * r2 + 2 * r3 + r4) / 6
     x += h
 
     x = parseFloat(x.toFixed(1))
