@@ -7,7 +7,7 @@
 body {
   font-family: Lexend, sans-serif;
   font-size: 24px;
-  background-color: #2D2F37;
+  background-color: #2d2f37;
   color: #fff;
 
   margin-top: 20px;
@@ -19,7 +19,7 @@ input {
   border-radius: 7px;
   border: none;
   outline: none;
-  
+
   padding-left: 10px;
 }
 
@@ -33,16 +33,16 @@ button {
   border-radius: 20px;
   font-size: 24px;
   font-weight: 600;
-  background-color: #4441D2;
+  background-color: #4441d2;
   color: #fff;
   border: none;
-  transition: .2s;
+  transition: 0.2s;
 
   padding: 5px 10px;
 }
 
 button:hover {
-  background-color: #4441D260;
+  background-color: #4441d260;
 }
 
 select {
@@ -50,7 +50,7 @@ select {
   color: #fff;
   border: 2px #fff solid;
   height: 65px;
-  
+
   padding: 5px 10px;
 }
 
@@ -96,11 +96,35 @@ select {
   color: #fff;
 }
 
-#table, th, td, tr  {
+#table,
+th,
+td,
+tr {
   border-collapse: collapse;
   border: 2px #fff solid;
 }
 
-th, td, tr {
+th,
+td,
+tr {
   padding: 5px 10px;
+}
+
+.method-options {
+  display: flex;
+  flex-direction: column;
+  justify-items: left;
+  gap: 8px;
+}
+
+.method-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+}
+
+.method-option input {
+  margin: 0;
+  width: 20px;
 }
