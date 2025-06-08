@@ -1,70 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <title>Math</title>
+    <style>
+      .method-options {
+        display: flex;
+        flex-direction: column;
+        justify-items: left;
+        gap: 8px;
+      }
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600&display=swap" rel="stylesheet">
-  <title>Math</title>
-</head>
+      .method-option {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+      }
 
-<body>
-  <div class="page">
-    <div class="container">
-      <div class="page__inner">
-        <div id="left">
-          <select class="methods" name="decides" multiple>
-            <option class="method" value="euler">Метод Эйлера</option>
-            <option class="method" value="euler-modific">Модифицированный метод Эйлера</option>
-            <option class="method" value="rugne-kutte">Метод Ругне-Кутта</option>
-          </select>
-        </div>
+      .method-option input {
+        margin: 0;
+        width: 20px;
+      }
+    </style>
+  </head>
 
-        <div id="center">
-          <div class="equation">
-            <p>Уравнение, y'</p>
-            <input class="equation-input" type="text" placeholder="Пример: cos(y) + x^2">
-          </div>
-
-          <div class="step">
-            <p>Шаг, h</p>
-            <input class="step-input" type="number" placeholder="Пример: 0.1">
-          </div>
-
-          <div class="interval">
-            <p>Интервал, [a; b]</p>
-            <div class="text">
-              <input class="interval-input from" type="number" placeholder="Пример: 0"> 
-              ;
-              <input class="interval-input to" type="number" placeholder="Пример: 1">
+  <body>
+    <div class="page">
+      <div class="container">
+        <div class="page__inner">
+          <div id="left">
+            <div class="method-options">
+              <div class="method-option">
+                <input
+                  type="radio"
+                  id="euler"
+                  name="method"
+                  value="euler"
+                  checked
+                />
+                <label for="euler">Метод Эйлера</label>
+              </div>
+              <div class="method-option">
+                <input
+                  type="radio"
+                  id="euler-modific"
+                  name="method"
+                  value="euler-modific"
+                />
+                <label for="euler-modific">Модифицированный метод Эйлера</label>
+              </div>
+              <div class="method-option">
+                <input
+                  type="radio"
+                  id="rugne-kutte"
+                  name="method"
+                  value="rugne-kutte"
+                />
+                <label for="rugne-kutte">Метод Рунге-Кутта</label>
+              </div>
             </div>
           </div>
 
-          <div class="variable">
-            <p>Значение переменной, y(x(0))</p>
-            <input class="variable-input" type="number" placeholder="Пример: 3">
+          <div id="center">
+            <div class="equation">
+              <p>Уравнение, y'</p>
+              <input
+                class="equation-input"
+                type="text"
+                placeholder="Пример: cos(y) + x^2"
+              />
+            </div>
+
+            <div class="step">
+              <p>Шаг, h</p>
+              <input
+                class="step-input"
+                type="number"
+                placeholder="Пример: 0.1"
+              />
+            </div>
+
+            <div class="interval">
+              <p>Интервал, [a; b]</p>
+              <div class="text">
+                <input
+                  class="interval-input from"
+                  type="number"
+                  placeholder="Пример: 0"
+                />
+                ;
+                <input
+                  class="interval-input to"
+                  type="number"
+                  placeholder="Пример: 1"
+                />
+              </div>
+            </div>
+
+            <div class="variable">
+              <p>Значение переменной, y(x(0))</p>
+              <input
+                class="variable-input"
+                type="number"
+                placeholder="Пример: 3"
+              />
+            </div>
+
+            <button class="decide">Решить</button>
+
+            <table></table>
+
+            <div id="rs"></div>
           </div>
-
-          <button class="decide">Решить</button>
-
-          <table></table>
-
-          <div id="rs"></div>
-        </div>
-
-        <div id="right">
-          <!-- <p>Тут могла бы быть ваша реклама</p> -->
         </div>
       </div>
     </div>
-  </div>
 
-  <script src="script.js">
-  </script>
-</body>
-
+    <script src="script.js"></script>
+  </body>
 </html>
